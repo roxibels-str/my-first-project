@@ -4,60 +4,135 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Student;
+use Illuminate\Support\Facades\Validator;
 
 class StudentController extends Controller
 {
     public function index()
     {
-        $students = Student::all();
-        return view('students.index', compact('students'));
+        return view('student.index');
     }
 
-    public function create()
+    public function fetchstudent()
     {
-        return view('students.create');
+        $students = Student::all();
+        return response()->json([
+            'students'=>$students,
+        ]);
     }
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|max:255',
-            'email' => 'required|email|unique:students',
-            'dob' => 'required|date',
+        $validator = Validator::make($request->all(), [
+            'name'=> 'required|max:191',
+            'course'=>'required|max:191',
+            'email'=>'required|email|max:191',
+            'phone'=>'required|max:10|min:10',
         ]);
 
-        Student::create($validatedData);
+        if($validator->fails())
+        {
+            return response()->json([
+                'status'=>400,
+                'errors'=>$validator->messages()
+            ]);
+        }
+        else
+        {
+            $student = new Student;
+            $student->name = $request->input('name');
+            $student->course = $request->input('course');
+            $student->email = $request->input('email');
+            $student->phone = $request->input('phone');
+            $student->save();
+            return response()->json([
+                'status'=>200,
+                'message'=>'Student Added Successfully.'
+            ]);
+        }
 
-        return redirect()->route('students.index');
     }
 
-    public function show(Student $student)
+    public function edit($id)
     {
-        return view('students.show', compact('student'));
+        $student = Student::find($id);
+        if($student)
+        {
+            return response()->json([
+                'status'=>200,
+                'student'=> $student,
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status'=>404,
+                'message'=>'No Student Found.'
+            ]);
+        }
+
     }
 
-    public function edit(Student $student)
+    public function update(Request $request, $id)
     {
-        return view('students.edit', compact('student'));
-    }
-
-    public function update(Request $request, Student $student)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required|max:255',
-            'email' => 'required|email|unique:students,email,'.$student->id,
-            'dob' => 'required|date',
+        $validator = Validator::make($request->all(), [
+            'name'=> 'required|max:191',
+            'course'=>'required|max:191',
+            'email'=>'required|email|max:191',
+            'phone'=>'required|max:10|min:10',
         ]);
 
-        $student->update($validatedData);
+        if($validator->fails())
+        {
+            return response()->json([
+                'status'=>400,
+                'errors'=>$validator->messages()
+            ]);
+        }
+        else
+        {
+            $student = Student::find($id);
+            if($student)
+            {
+                $student->name = $request->input('name');
+                $student->course = $request->input('course');
+                $student->email = $request->input('email');
+                $student->phone = $request->input('phone');
+                $student->update();
+                return response()->json([
+                    'status'=>200,
+                    'message'=>'Student Updated Successfully.'
+                ]);
+            }
+            else
+            {
+                return response()->json([
+                    'status'=>404,
+                    'message'=>'No Student Found.'
+                ]);
+            }
 
-        return redirect()->route('students.index');
+        }
     }
 
-    public function destroy(Student $student)
+    public function destroy($id)
     {
-        $student->delete();
-
-        return redirect()->route('students.index');
+        $student = Student::find($id);
+        if($student)
+        {
+            $student->delete();
+            return response()->json([
+                'status'=>200,
+                'message'=>'Student Deleted Successfully.'
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status'=>404,
+                'message'=>'No Student Found.'
+            ]);
+        }
     }
 }

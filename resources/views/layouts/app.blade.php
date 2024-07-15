@@ -7,6 +7,10 @@
 
         <title>{{ config('app.name', 'Student System') }}</title>
 
+          <!-- Favicons -->
+        <link href="myporfolio/img/favicon.png" rel="icon">
+        <link href="myporfolio/img/apple-touch-icon.png" rel="apple-touch-icon">
+
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />

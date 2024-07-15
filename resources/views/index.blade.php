@@ -6,10 +6,6 @@
 
         <title>{{ config('app.name', 'Student System') }}</title>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
-        <link href="./src/input.css" rel="stylesheet">
 
         {{-- <my portfolio theme> --}}
             <head>
@@ -17,6 +13,9 @@
                 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
                 <title>My Portfolio</title>
+
+                   <!-- Fonts -->
+
 
                  <!-- Favicons -->
                 <link href="myporfolio/img/favicon.png" rel="icon">
@@ -57,34 +56,21 @@
               <nav id="navmenu" class="navmenu">
                 <ul>
                   <li><a href="/" class="active">Home<br></a></li>
-                   {{-- <li class="dropdown"><a href="#about"><span>About Me</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                        <ul>
-                          <li><a href="#education">Education</a></li>
-                          <li><a href="#work">Experiences</a></li>
-                        </ul>
-                      </li>
-                  </li>
-                  <li><a href="#portfolio">Projects</a></li>
-                  <li><a href="#skills">Skills</a></li>
-                  <li><a href="#recent-posts">Blog</a></li>
-                  <li><a href="#contact">Contact</a></li> --}}
 
-                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
 
                 <li>
                 @if (Route::has('login'))
                     @auth
                         <a
                             href="{{ url('/dashboard') }}"
-                            class="btn-getstarted flex-md-shrink-0"
-                        >
+                            class="btn-getstarted flex-md-shrink-0">
                             Dashboard
                         </a>
                     @else
                         <a
                             href="{{ route('login') }}"
-                            class="btn-getstarted flex-md-shrink-0"
-                        >
+                            class="btn-getstarted flex-md-shrink-0">
                             Log in
                         </a>
                         <li>
@@ -93,8 +79,7 @@
                                 <li>
                                     <a
                                         href="{{ route('register') }}"
-                                        class="btn-getstarted flex-md-shrink-0"
-                                    >
+                                        class="btn-getstarted flex-md-shrink-0">
                                         Register
                                     </a>
                                 @endif
